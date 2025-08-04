@@ -1,0 +1,49 @@
+[
+  {
+    "name": "CasaOS",
+    "url": "http://192.168.1.123:80",
+    "description": "Simple home cloud system.",
+    "imageUrl": "/icons/casaos.ico",
+    "password": "pass"
+  },
+  {
+    "name": "Portainer",
+    "url": "http://192.168.1.123:9443",
+    "description": "Docker management UI.",
+    "imageUrl": "/icons/portainer.ico",
+    "password": "pass"
+  },
+  {
+    "name": "Plex",
+    "url": "http://192.168.1.123:32400",
+    "forceUrl": "http://192.168.1.123:32400/web/index.html",
+    "description": "Plex for movies and shows.",
+    "imageUrl": "/icons/plex.ico"
+  },
+  {
+    "name": "Radarr",
+    "url": "http://192.168.1.123:7878",
+    "description": "Movie Manager and Requestor.",
+    "imageUrl": "/icons/radarr.ico"
+  },
+  {
+    "name": "Sonarr",
+    "url": "http://192.168.1.123:8989",
+    "description": "TV Show Manger and Requestor.",
+    "imageUrl": "/icons/sonarr.ico"
+  },
+  {
+    "name": "qBittorrent",
+    "url": "http://192.168.1.123:8090",
+    "description": "Download manager.",
+    "imageUrl": "/icons/qbittorrent.ico",
+    "password": "password"
+  },
+  {
+    "name": "Bazarr",
+    "url": "http://192.168.1.123:6767",
+    "description": "Subtitle manager.",
+    "imageUrl": "/icons/bazarr.ico",
+    "password": "password"
+  }
+]
