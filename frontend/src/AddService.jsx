@@ -9,8 +9,7 @@ const AddService = ({ onServiceAdded }) => {
     password: ''
   });
 
-  const backendUrl = import.meta.env.REACT_APP_BACKEND_URL || 'http://localhost:3001';
-  const backendApiUrl = `${backendUrl}/api`;
+  const backendApiUrl = API_URL;
 
   const handleChange = (e) => {
     const { name, value } = e.target;

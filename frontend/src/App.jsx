@@ -11,8 +11,7 @@ const App = () => {
 
   // Default fallback image URL with a question mark
   const defaultPlaceholderUrl = 'https://placehold.co/100x100/1e293b/d1d5db?text=?';
-  const backendUrl = import.meta.env.REACT_APP_BACKEND_URL || 'http://localhost:3001';
-  const backendApiUrl = `${backendUrl}/api`;
+  const backendApiUrl = API_URL;
 
   // Function to check the status of a single service
   const checkServiceStatus = async (serviceUrl, serviceName) => {
