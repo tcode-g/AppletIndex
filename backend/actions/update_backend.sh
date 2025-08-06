@@ -1,4 +1,3 @@
 cd /var/applet-index/backend
 npm install
-# TODO use process manager instead
-npm run start
+pm2 restart applet-index-backend || pm2 start server.js --name applet-index-backend
