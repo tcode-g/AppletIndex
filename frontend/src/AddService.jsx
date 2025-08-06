@@ -9,7 +9,8 @@ const AddService = ({ onServiceAdded }) => {
     password: ''
   });
 
-  const backendUrl = 'http://localhost:3001';
+  const backendUrl = import.meta.env.REACT_APP_BACKEND_URL || 'http://localhost:3001';
+  const backendApiUrl = `${backendUrl}/api`;
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -20,7 +21,7 @@ const AddService = ({ onServiceAdded }) => {
     e.preventDefault();
 
     try {
-      const response = await fetch(`${backendUrl}/api/services`, {
+      const response = await fetch(`${backendApiUrl}/services`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData)
