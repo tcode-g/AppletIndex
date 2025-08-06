@@ -1,8 +1,7 @@
-cd /var/applet-frontend
-git pull origin main
+cd /var/applet-index/frontend
 npm install
 npm run build
-DIST_DIR=/var/applet-frontend/dist
+DIST_DIR=dist
 if [[ -d $DIST_DIR ]]; then
   rm -r /var/www/html/*
   mv $DIST_DIR/* /var/www/html/

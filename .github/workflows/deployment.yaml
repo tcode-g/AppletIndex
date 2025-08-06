@@ -1,0 +1,104 @@
+# name: Backend Deployment
+# on:
+#   pull_request:
+#     branches:
+#       - main
+#   push:
+#     branches:
+#       - main
+     
+# jobs:
+#   deploy_backend:
+#     runs-on: ubuntu-latest
+#     steps:
+#       - name: Checkout code
+#         uses: actions/checkout@v2
+#       - name: Pull from repo
+#         uses: appleboy/ssh-action@v1.2.2
+#         with:
+#           host: ${{ secrets.SSH_HOST }}
+#           username: ${{ secrets.SSH_USER }}
+#           key: ${{ secrets.SSH_KEY }} 
+#           script: |
+#             cd /var/applet-index
+#             git pull origin main
+#       - name: Deploy Backend Server
+#         uses: appleboy/ssh-action@v1.2.2
+#         with:
+#           host: ${{ secrets.SSH_HOST }}
+#           username: ${{ secrets.SSH_USER }}
+#           key: ${{ secrets.SSH_KEY }} 
+#           script: |
+#             cd /var/applet-index/backend
+#             # if action exists, run it
+#             if [ -f ./actions/update_backend.sh ]; then
+#               bash ./actions/update_backend.sh
+#             else
+#               echo "No action script found, skipping."
+#             fi
+#       - name: Deploy Frontend Server
+#         uses: appleboy/ssh-action@v1.2.2
+#         with:
+#           host: ${{ secrets.SSH_HOST }}
+#           username: ${{ secrets.SSH_USER }}
+#           key: ${{ secrets.SSH_KEY }} 
+#           script: |
+#             cd /var/applet-index/frontend
+#             # if action exists, run it
+#             if [ -f ./actions/update_frontend.sh ]; then
+#               bash ./actions/update_frontend.sh
+#             else
+#               echo "No action script found, skipping."
+#             fi
+
+name: Backend and Frontend Deployment
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Deploy to Server
+        uses: appleboy/ssh-action@v1.2.2
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_KEY }}
+          script: |
+            # Set -e will exit the script immediately if any command fails
+            set -e
+
+            echo "Starting deployment process..."
+
+            DEPLOY_DIR="/var/applet-index"
+
+            # Check if the directory exists
+            if [ ! -d "$DEPLOY_DIR" ]; then
+              echo "Error: Deployment directory $DEPLOY_DIR not found."
+              exit 1
+            fi
+
+            # Navigate to the deployment directory
+            cd "$DEPLOY_DIR"
+            echo "Working directory is now $(pwd)"
+
+            # Pull the latest changes from the main branch
+            echo "Pulling latest code from origin main..."
+            git fetch
+            git reset --hard origin/main
+
+            # Check if the deployment script exists and run it
+            if [ -f ./deploy.sh ]; then
+              echo "Executing custom deployment script..."
+              bash ./deploy.sh
+              echo "Deployment script finished."
+            else
+              echo "No custom deployment script found (deploy.sh), skipping."
+            fi
+
+            echo "Deployment completed successfully!"

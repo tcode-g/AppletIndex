@@ -1,0 +1,25 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "The backend component for Applet-Index",
+  "homepage": "https://github.com/tcode-g/AppletIndex#readme",
+  "bugs": {
+    "url": "https://github.com/tcode-g/AppletIndex/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tcode-g/AppletIndex.git"
+  },
+  "license": "ISC",
+  "author": "Trevor Carter",
+  "type": "module",
+  "main": "server.js",
+  "scripts": {
+    "test": "jest",
+    "start": "nodemon server.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^5.1.0"
+  }
+}

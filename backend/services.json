@@ -8,7 +8,7 @@
   },
   {
     "name": "Portainer",
-    "url": "http://192.168.1.123:9443",
+    "url": "https://192.168.1.123:9443",
     "description": "Docker management UI.",
     "imageUrl": "/icons/portainer.ico",
     "password": "pass"
@@ -16,7 +16,7 @@
   {
     "name": "Plex",
     "url": "http://192.168.1.123:32400",
-    "forceUrl": "http://192.168.1.123:32400/web/index.html",
+    "clickUrl": "http://192.168.1.123:32400/web/index.html",
     "description": "Plex for movies and shows.",
     "imageUrl": "/icons/plex.ico"
   },
@@ -45,5 +45,19 @@
     "description": "Subtitle manager.",
     "imageUrl": "/icons/bazarr.ico",
     "password": "password"
+  },
+  {
+    "name": "Cloud Portainer",
+    "url": "https://35.196.220.75:8010/",
+    "description": "Cloud Portainer Instance",
+    "imageUrl": "icons/portainer.ico",
+    "password": "password"
+  },
+  {
+    "name": "SomeTestService",
+    "url": "https://google.com",
+    "description": "This is a test service pointed towards google.",
+    "imageUrl": "icons/google.com",
+    "password": ""
   }
 ]

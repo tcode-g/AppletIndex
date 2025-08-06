@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
+import AddService from './AddService';
 
 const App = () => {
   // Use state variables for the services and passwords
@@ -10,6 +11,7 @@ const App = () => {
 
   // Default fallback image URL with a question mark
   const defaultPlaceholderUrl = 'https://placehold.co/100x100/1e293b/d1d5db?text=?';
+  const backendUrl = 'http://localhost:3001/api';
 
   // Function to check the status of a single service
   const checkServiceStatus = async (serviceUrl, serviceName) => {
@@ -40,35 +42,35 @@ const App = () => {
   };
 
   // --- Fetch data from JSON file ---
-  useEffect(() => {
-    const fetchServices = async () => {
-      try {
-        const response = await fetch('/services.json');
-        if (!response.ok) {
-          throw new Error('Failed to fetch services.json');
-        }
-        const servicesData = await response.json();
-
-        // Sort services: non-password-protected first, then password-protected
-        const sortedServices = servicesData.sort((a, b) => {
-          if (a.password && !b.password) return 1;
-          if (!a.password && b.password) return -1;
-          return 0;
-        });
-
-        setServices(sortedServices);
-
-        // When services are fetched, run the status checks
-        sortedServices.forEach(service => {
-          checkServiceStatus(service.url, service.name);
-        });
-      } catch (error) {
-        console.error("Error fetching services:", error);
+  const fetchServices = useCallback(async () => {
+    try {
+      const response = await fetch(`${backendUrl}/services`);
+      if (!response.ok) {
+        throw new Error('Failed to fetch services');
       }
-    };
+      const servicesData = await response.json();
 
-    fetchServices();
+      // Sort services: non-password-protected first, then password-protected
+      const sortedServices = servicesData.sort((a, b) => {
+        if (a.password && !b.password) return 1;
+        if (!a.password && b.password) return -1;
+        return 0;
+      });
+
+      setServices(sortedServices);
+
+      // When services are fetched, run the status checks
+      sortedServices.forEach(service => {
+        checkServiceStatus(service.url, service.name);
+      });
+    } catch (error) {
+      console.error("Error fetching services:", error);
+    }
   }, []); // Empty dependency array ensures this runs only once
+
+  useEffect(() => {
+    fetchServices();
+  }, [fetchServices]);
 
   const getStatusColor = (status) => {
     switch (status) {
@@ -99,7 +101,7 @@ const App = () => {
         [selectedService.name]: password
       }));
       setShowPasswordModal(false);
-      window.open(selectedService.forceUrl || selectedService.url, '_blank');
+      window.open(selectedService.clickUrl || selectedService.url, '_blank');
     } else {
       alert('Incorrect password');
     }
@@ -117,6 +119,9 @@ const App = () => {
           </p>
         </header>
 
+        {/* AddService component integrated here */}
+        <AddService onServiceAdded={fetchServices} />
+
         {/* Loading state or empty state */}
         {services.length === 0 && (
           <p className="text-center text-lg text-gray-400">
@@ -126,11 +131,11 @@ const App = () => {
 
         {/* Grid of service cards */}
         {services.length > 0 && (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-8">
             {services.map((service) => (
               <a
                 key={service.name}
-                href={service.forceUrl || service.url}
+                href={service.clickUrl || service.url}
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={(e) => handleServiceClick(e, service)}
